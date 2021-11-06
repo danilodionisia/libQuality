@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>LibQuality</title>
+</head>
+<body>
+    
+    <div class="container mt-2" id="libQHeader">
+        <div class="ps-5 pt-5">
+            <h1 class="fs-1">LibQuality</h1>
+            <p class="lh-base">
+                This is a simple tool to compare quality of different open source libraries avalaible in GitHub.
+            </p>
+            <button class="btn btn-primary">Learn more</button>
+        </div>
+    </div>
+
+    <div class="container mt-2 mb-4" id="libQBody">  
+        <form action="http://localhost:3000/" method="post">
+            <div class="row mt-5 ps-5">
+                <div class="col-10">
+                    <input type="text" name="library" class="form-control" placeholder="Library´s name">
+                </div>
+                <div class="col-2">
+                    <button class="btn btn-primary" type="submit">Search</button>
+                </div>
+            </div> 
+        </form>
+
+        <div class="row mt-5 ps-5 pe-5">
+            <div id="chart" class="col-12">
+                <h1>Line chart</h1>
+            </div>
+        </div> 
+        
+
+        <div class="row mt-5 ps-5 pe-5">
+            <table class="table mb-5">
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col">#Issues</th>
+                        <th scope="col">avg age</th>
+                        <th scope="col">Std age</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if(data){ %>
+                        
+                        <% data.forEach((item) => { %>
+                            
+                            <tr>
+                                <th scope="row"><%= item.id %></th>
+                                <td><%= item.framework %></td>
+                                <td><%= item.issues %></td>
+                                <td><%= item.avg %></td>
+                                <td><%= item.std %></td>
+                            </tr>
+
+                        <% }) %>
+
+                    <% } %>       
+                </tbody>
+            </table>
+        </div>
+
+
+ 
+
+         
+
+    </div>
+
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+<script src="/js/bootstrap.min.js"></script>
+
+</html>

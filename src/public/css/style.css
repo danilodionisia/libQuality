@@ -1,0 +1,27 @@
+#libQHeader{
+    background-color: #EEEEEE;
+    border-radius: 5px;
+    color: #313232;
+    height: 250px;
+}
+
+#libQBody{
+    background-color: #FFFFFF;
+    border-radius: 5px;
+    color: #313232;
+    min-height: 450px;
+    border:black solid 1px;
+}
+
+#chart {
+    height: 200px;
+    line-height: 200px;
+    text-align: center;
+    background-color: #cccccc;
+}
+
+#chart h1 {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: normal;
+}
