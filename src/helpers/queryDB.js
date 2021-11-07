@@ -22,7 +22,7 @@ exports.formatResponseOfQuery = (data) => {
                 framework: item.framework,
                 issues: item.issues,
                 avg: item.avg,
-                std: item.std,                
+                std: item.std,
             });
         });
 

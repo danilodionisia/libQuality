@@ -37,6 +37,10 @@
             </div> 
         </form>
 
+    <div class="container mt-2" id="loading">
+        <img src="/img/loading.gif">
+    </div>
+
         <div class="row mt-5 ps-5 pe-5">
             <div id="chart" class="col-12">
                 <h1>Line chart</h1>
@@ -92,6 +96,7 @@
         if(!library){
             return false;
         }
+        document.getElementById('loading').style = 'display: block;';
         return true;
     }
 </script>

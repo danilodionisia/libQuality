@@ -25,3 +25,14 @@
     vertical-align: middle;
     line-height: normal;
 }
+
+#loading{
+    text-align: center;
+    z-index: 100;
+    display: none;    
+}
+
+#loading img{
+    height: 70px;
+    width: auto;
+}

@@ -58,8 +58,10 @@ exports.generateAmountOfDays = (data) => {
 
     const issueDate = new Date(data.issueCreatedAt);
     const currentDate = new Date(data.currentDateTime);
+    let differenceOfDays = currentDate.getTime() - issueDate.getTime();
+    differenceOfDays = differenceOfDays / (1000 * 3600 * 24);
 
-    return (issueDate.getDay() - currentDate.getDay());
+    return Math.ceil(differenceOfDays);
 };
 
 exports.generateStd = (allIssueTime, avg) => {
