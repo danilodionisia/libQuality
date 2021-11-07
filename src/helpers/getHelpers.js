@@ -96,7 +96,11 @@ exports.buildUrlToRequest = (libray) => {
         },
     };
 
-    url = `https://api.github.com/repos/${dataOfUrl[libray].owner}/${dataOfUrl[libray].repo}/issues?per_page=100`;
+    let url = undefined;
+
+    if (dataOfUrl[libray]) {
+        url = `https://api.github.com/repos/${dataOfUrl[libray].owner}/${dataOfUrl[libray].repo}/issues?per_page=100`;
+    }
 
     return url;
 }

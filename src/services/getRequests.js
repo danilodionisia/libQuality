@@ -1,9 +1,11 @@
 const axios = require('axios').default;
 const getHelpers = require('../helpers/getHelpers');
+const insertDBHelper = require('../helpers/insertAndUpdateDBHelper');
 
-exports.getGitHubIssues = async (library) => {
+exports.getGitHubIssues = async (library, idToUpdate) => {
 
     const token = process.env.TOKEN;
+    
     const options = {
         port: 443,
         method: 'GET',
@@ -17,35 +19,47 @@ exports.getGitHubIssues = async (library) => {
     const allData = new Set();
     let url = getHelpers.buildUrlToRequest(library);
 
-    let fullUrl = {
-        url: url,
-        pageParam: '&page=',
-        page: 0,
-        urlFrezzed: url,
-    }
+    if (url) {
+
+        let fullUrl = {
+            url: url,
+            pageParam: '&page=',
+            page: 0,
+            urlFrezzed: url,
+        }
     
-    while (!stop && fullUrl.page < 1) {
+        while (!stop) {
 
-        await axios.get(fullUrl.url, options).then((data) => {
+            await axios.get(fullUrl.url, options).then((data) => {
 
-            stop = data.data.length > 0 ? false : true;
+                stop = data.data.length > 0 ? false : true;
             
-            for (let item of data.data.values()) {
-                allData.add(item);
+                for (let item of data.data.values()) {
+                    allData.add(item);
+                }
+
+            }).catch((error) => {
+                stop = true;
+                console.log(error);
+            });
+        
+            fullUrl.page++;
+            const newUrl = fullUrl.urlFrezzed.substring(0, fullUrl.url.length);
+            fullUrl.url = `${newUrl}${fullUrl.pageParam}${fullUrl.page}`;
+        
+        }
+
+        try {
+            const finalRespose = getHelpers.buildFormatedData(allData, library);
+
+            if (!idToUpdate) {
+                await insertDBHelper.insertGetResponse(finalRespose);
+            } else {
+                await insertDBHelper.updateGetResponse(finalRespose, idToUpdate);
             }
 
-        }).catch((error) => {
-            stop = true;
-            console.log(error);
-        });
-        
-        fullUrl.page++;
-        const newUrl = fullUrl.urlFrezzed.substring(0, fullUrl.url.length);
-        fullUrl.url = `${newUrl}${fullUrl.pageParam}${fullUrl.page}`;
-        
+        } catch (err) {
+            console.error(err);
+        }
     }
-
-    const finalRespose = getHelpers.buildFormatedData(allData, library);
-
-    return finalRespose;
 }

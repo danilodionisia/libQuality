@@ -1,10 +1,7 @@
 const mongoose = require('../database');
 
 const DataFrameworkSchema = new mongoose.Schema({
-    id: {
-        type: Number,
-        required: true,
-    },
+
     framework: {
         type: String,
         required: true,

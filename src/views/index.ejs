@@ -25,6 +25,11 @@
             <div class="row mt-5 ps-5">
                 <div class="col-10">
                     <input type="text" name="library" id="library" class="form-control" placeholder="Library´s name">
+                    <% if(itens){ %>
+                        <% itens.forEach((item) => { %>
+                            <input type="hidden" name="<%= item.framework %>" value="<%= item.originalId %>">
+                        <% }) %>
+                    <% } %>
                 </div>
                 <div class="col-2">
                     <button class="btn btn-primary" type="submit">Search</button>
@@ -52,13 +57,17 @@
                 </thead>
                 <tbody>
                     <% if(itens){ %>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td><%= itens.repoName %></td>
-                            <td><%= itens.issues %></td>
-                            <td><%= itens.avgAge %></td>
-                            <td><%= itens.stdAge %></td>
-                        </tr>
+                        <% let cont = 0 %>
+                        <% itens.forEach((item) => { %>
+                            <% cont++ %>
+                            <tr>
+                                <th scope="row"><%= cont %></th>
+                                <td><%= item.framework %></td>
+                                <td><%= item.issues %></td>
+                                <td><%= item.avg %>d</td>
+                                <td><%= item.std %>d</td>
+                            </tr>
+                        <% }) %>
                     <% } %>
                 </tbody>
             </table>
