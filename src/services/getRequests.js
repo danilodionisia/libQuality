@@ -1,6 +1,8 @@
 const axios = require('axios').default;
+const getHelpers = require('../helpers/getHelpers');
 
-exports.getGitHubIssues = async (data) => {
+exports.getGitHubIssues = async (library) => {
+
     const token = process.env.TOKEN;
     const options = {
         port: 443,
@@ -8,41 +10,42 @@ exports.getGitHubIssues = async (data) => {
         headers: {
             'User-Agent': 'request',
             authorization: token
-        },        
-    };     
-    const url = `https://api.github.com/repos/${data.owner}/${data.repo}/issues`;
+        },
+    };
     
+    let stop = false;
     const allData = new Set();
+    let url = getHelpers.buildUrlToRequest(library);
+
+    let fullUrl = {
+        url: url,
+        pageParam: '&page=',
+        page: 0,
+        urlFrezzed: url,
+    }
     
-    await axios.get(url, options).then((data) => {
-        for (let item of data.data.values()) {
-            allData.add(item);
-        }
-    }).catch((error) => {
-        console.log(error);
-    });
+    while (!stop && fullUrl.page < 1) {
 
-    const finalRespose = exports.buildFormatedData(allData);
+        await axios.get(fullUrl.url, options).then((data) => {
 
-    return [...finalRespose];
-}
+            stop = data.data.length > 0 ? false : true;
+            
+            for (let item of data.data.values()) {
+                allData.add(item);
+            }
 
-exports.buildFormatedData = (data) => {
-
-    const resumedData = new Set();
-    const timeElapsed = Date.now();
-    const today = new Date(timeElapsed);
-
-    for (const item of data.values()) {
-        resumedData.add({
-            issueId: item.id,
-            issueTitle: item.title,
-            issueState: item.state,
-            issueCreatedAt: item.created_at,
-            issueClosedAT: item.closed_at,
-            currentDateTime: today.toISOString(),
+        }).catch((error) => {
+            stop = true;
+            console.log(error);
         });
+        
+        fullUrl.page++;
+        const newUrl = fullUrl.urlFrezzed.substring(0, fullUrl.url.length);
+        fullUrl.url = `${newUrl}${fullUrl.pageParam}${fullUrl.page}`;
+        
     }
 
-    return resumedData;
-};
+    const finalRespose = getHelpers.buildFormatedData(allData, library);
+
+    return finalRespose;
+}
