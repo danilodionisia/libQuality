@@ -4,13 +4,11 @@ const getRequests = require('../services/getRequests');
 const queryDB = require('../helpers/queryDB');
 
 router.get('/', async (req, res) => {
-    const itens = await queryDB.getAllDataFromDb();
-    
+    const itens = await queryDB.getAllDataFromDb();    
     res.render('index', {itens: itens});
 });
 
 router.post('/', async (req, res) => {
-
     const { library } = req.body;
     const idToUpdate = req.body[library.toLowerCase()];
     
