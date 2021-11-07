@@ -27,22 +27,9 @@ app.get('/', async (req, res) => {
 
     const githubData = await getRequests.getGitHubIssues({ owner: 'angular', repo: 'angular' });
     
-    const resumedData = new Set();
-    const timeElapsed = Date.now();
-    const today = new Date(timeElapsed);
 
-    for (const item of githubData.values()) {
-        resumedData.add({
-            issueId: item.id,
-            issueTitle: item.title,
-            issueState: item.state,
-            issueCreatedAt: item.created_at,
-            issueClosedAT: item.closed_at,
-            currentDateTime: today.toISOString(),
-        });
-    }
-    console.log(resumedData);
-    return res.status(200).json(resumedData);
+
+    return res.status(200).json(githubData);
 
 });
 

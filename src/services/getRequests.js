@@ -1,8 +1,7 @@
 const axios = require('axios').default;
 
 exports.getGitHubIssues = async (data) => {
-    
-    const token = 'authorization: Bearer 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';
+    const token = process.env.TOKEN;
     const options = {
         port: 443,
         method: 'GET',
@@ -23,5 +22,27 @@ exports.getGitHubIssues = async (data) => {
         console.log(error);
     });
 
-    return allData;
+    const finalRespose = exports.buildFormatedData(allData);
+
+    return [...finalRespose];
 }
+
+exports.buildFormatedData = (data) => {
+
+    const resumedData = new Set();
+    const timeElapsed = Date.now();
+    const today = new Date(timeElapsed);
+
+    for (const item of data.values()) {
+        resumedData.add({
+            issueId: item.id,
+            issueTitle: item.title,
+            issueState: item.state,
+            issueCreatedAt: item.created_at,
+            issueClosedAT: item.closed_at,
+            currentDateTime: today.toISOString(),
+        });
+    }
+
+    return resumedData;
+};
