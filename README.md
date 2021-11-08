@@ -10,6 +10,8 @@ https://www.bmc.com/blogs/mongodb-docker-container/
 
 Clone this repository and then use the command npm install.
 
+Initialize the MongoDB on Docker
+
 To start the application, in the root directory, execute the command npm run dev (locally) or npm run start (production environment).
 
 To the unit tests results, execute the command npm test.
